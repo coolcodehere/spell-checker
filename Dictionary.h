@@ -1,5 +1,3 @@
-// file to implement a binary search tree of Entry objects
-
 #ifndef DICTIONARY_H
 #define DICTIONARY_H
 
@@ -21,8 +19,8 @@ public:
     Dictionary(const Dictionary& other);
     Dictionary& operator=(const Dictionary& other);
     
-    void insert(string val);
-    bool contains(string val);
+    void addEntry(string val);
+    bool findEntry(string val);
     void printSorted(ostream& outStream);
 
 private:

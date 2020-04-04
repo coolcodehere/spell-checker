@@ -51,8 +51,8 @@ void buildDict(Dictionary &d, string filename) {
     string buf;
 
     while(getline(in, buf)) {
-        if (!d.contains(buf)) {
-            d.insert(buf);   
+        if (!d.findEntry(buf)) {
+            d.addEntry(buf);   
         }
     }
 
@@ -103,7 +103,7 @@ void generateSuggestions(Dictionary &dict, vector<string> &v, string &word) {
     swapLetters(gen, word);
 
     for (int i = 0; i < gen.size(); i++) {
-        if (dict.contains(gen.at(i))) {
+        if (dict.findEntry(gen.at(i))) {
             v.push_back(gen.at(i));
         }
     }
@@ -116,7 +116,7 @@ void loadNewFile(vector<string> &words, vector<int> &lines, Dictionary &dict, co
     getWordVector(tempw, templ, "test1.txt");
 
     for (int i = 0; i < tempw.size(); i++) {
-        if (!dict.contains(tempw.at(i))) {
+        if (!dict.findEntry(tempw.at(i))) {
             words.push_back(tempw.at(i));
             lines.push_back(templ.at(i));
         }
@@ -258,7 +258,7 @@ int main() {
             case 3:
                 if (fileLoaded) {
                     for (int i = 0; i < words.size(); i++) {
-                        if (!dict.contains(words.at(i))) {
+                        if (!dict.findEntry(words.at(i))) {
                             tempw.push_back(words.at(i));
                             templ.push_back(lines.at(i));
                         }

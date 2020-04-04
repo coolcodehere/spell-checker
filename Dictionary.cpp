@@ -10,10 +10,6 @@ Dictionary::Dictionary(int capacity) {
     set = new string[capacity];
     valStore = new string[capacity];
     isOccupied = new bool[capacity] {0};
-
-    for (int i = 0; i < capacity; i++) {
-        isOccupied[i] = false;
-    }
 }
 
 
@@ -25,20 +21,36 @@ Dictionary::~Dictionary() {
 
 
 Dictionary::Dictionary(const Dictionary& other) {
-
+    delete[] set;
+    delete[] valStore;
+    delete[] isOccupied;
+    capacity = other.capacity;
+    numVals = other.numVals;
+    for (int i = 0; i < capacity; i++) {
+        set[i] = other.set[i];
+        valStore[i] = other.valStore[i];
+        isOccupied[i] = other.isOccupied[i];
+    }
 }
 
 
 Dictionary& Dictionary::operator=(const Dictionary& other) {
-
+    delete[] set;
+    delete[] valStore;
+    delete[] isOccupied;
+    capacity = other.capacity;
+    numVals = other.numVals;
+    set = other.set;
+    valStore = other.valStore;
+    isOccupied = other.isOccupied;
+    return *this;
 }
 
 
 int Dictionary::hash(const string &val, int capacity) {
     int hashCharSum = 0;
-    for (char c : val) {
+    for (char c : val) 
         hashCharSum = hashCharSum + (int)c;
-    }
     return hashCharSum % capacity;
 }
 
@@ -56,7 +68,7 @@ void Dictionary::rehash() {
     numVals = 0;
 
     for (int i = 0; i < tempNumVals; i++) {
-        insert(valStore[i]);
+        addEntry(valStore[i]);
         tempValStore[i] = valStore[i];
     }
 
@@ -78,21 +90,21 @@ int Dictionary::findFirstEmptyIndex(int index) {
 }
 
 
-void Dictionary::insert(string val) {
+void Dictionary::addEntry(string val) {
     int index = findFirstEmptyIndex(hash(val, capacity));
 
     valStore[numVals] = val;
     set[index] = val;
     isOccupied[index] = true;
     numVals++;
-    
+
     if (numVals * 2 >= capacity) { 
         rehash();
     }
 }
 
 
-bool Dictionary::contains(string val) {
+bool Dictionary::findEntry(string val) {
     for (int i = 0; i < numVals; i++) {
         if (valStore[i].compare(val) == 0) {
             return true;
@@ -104,9 +116,8 @@ bool Dictionary::contains(string val) {
 
 
 void Dictionary::printSorted(ostream& outStream) {
+    sort(valStore, valStore + numVals);
     for (int i = 0; i < capacity; i++) {
-        if (isOccupied[i]) {
-            outStream << set[i] << endl;
-        }
+        outStream << valStore[i] << endl;
     }
 }
