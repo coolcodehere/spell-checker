@@ -194,11 +194,12 @@ string getFileName(int n) {
     return filename;
 }
 
-
+// SEGFAULT here
 void spellingMistakesMenu(vector<string> &misspelled, vector<int> lines, Dictionary d) {
+    cout << "enter" << endl;
     int selection = -1;
     vector<string> temp;
-
+    
     while (selection != 0) {
         displayTitle();
 
@@ -222,7 +223,6 @@ void spellingMistakesMenu(vector<string> &misspelled, vector<int> lines, Diction
                 
                 temp.clear();
         }
-        
         cout << "Enter '0' to Exit..." << endl;
         cin >> selection;
     }
